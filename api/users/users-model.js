@@ -8,6 +8,10 @@ function findById(id) {
   return db('users').where('id', id).first();
 }
 
+function findBy(filter) {
+  return db('users').where(filter);
+}
+
 async function add({ username, password }) {
   const [id] = await db('users').insert({ username, password });
   return findById(id);
@@ -16,5 +20,6 @@ async function add({ username, password }) {
 module.exports = {
   find,
   findById,
+  findBy,
   add,
-}
+};
