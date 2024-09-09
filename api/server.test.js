@@ -44,4 +44,16 @@ describe('server.js', () => {
       expect(response.status).toBe(401)
     })
   });
+  describe('[GET] to /api/jokes', () => {
+    it('[5] the API responds with the correct status and message when no token is present', async () => {
+      const response = await request(server).get('/api/jokes')
+      expect(response.status).toBe(401)
+      expect(response.body.message).toMatch(/token required/i)
+    })
+    it('[6] the API responds with the correct status and message if the token is invalid', async () => {
+      const response = await request(server).get('/api/jokes').set('Authorization', 'thisIsSneaky')
+      expect(response.status).toBe(401)
+      expect(response.body.message).toMatch(/token invalid/i)
+    })
+  })
 });
